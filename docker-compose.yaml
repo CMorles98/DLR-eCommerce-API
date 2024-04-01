@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db:
+    container_name: DLR
+    image: mongo:7
+    volumes:
+      - ./mongo:/data/db
+    environment:
+      - MONGODB_DATABASE=DLR
+    ports:
+      - 27017:27017
+    restart: always
