@@ -1,6 +1,5 @@
 import * as winston from 'winston'
 import 'winston-daily-rotate-file'
-// import * as SlackHook from 'winston-slack-webhook-transport'
 import * as winstonMongoDB from 'winston-mongodb'
 
 const transports = [
@@ -26,7 +25,7 @@ const transports = [
   }),
   new winstonMongoDB.MongoDB({
     level: 'info',
-    db: 'mongodb://localhost',
+    db: 'mongodb+srv://DLR:D3aJ1fYxWgIAuyLz@dlr-cluster.gkrigla.mongodb.net/?retryWrites=true&w=majority&appName=DLR-Cluster',
     options: {
       useUnifiedTopology: true,
     },
