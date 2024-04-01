@@ -2,7 +2,7 @@ import * as winston from 'winston'
 import 'winston-daily-rotate-file'
 import * as winstonMongoDB from 'winston-mongodb'
 
-const transports = (connectionString: string) => {
+const transports = (connectionString: string, dbName: string) => {
   return [
     new winston.transports.Console({
       format: winston.format.combine(
@@ -37,16 +37,16 @@ const transports = (connectionString: string) => {
         winston.format.timestamp(),
         winston.format.json(),
       ),
-      dbName: 'DLR',
+      dbName,
     }),
   ]
 }
 
-export const logger = (connectionString: string) => {
+export const logger = (connectionString: string, dbName: string) => {
   return winston.createLogger({
     level: 'info',
     format: winston.format.json(),
-    transports: transports(connectionString),
+    transports: transports(connectionString, dbName),
     handleExceptions: true,
   })
 }

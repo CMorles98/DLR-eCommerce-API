@@ -7,20 +7,24 @@ export class LoggerService {
   constructor(private readonly configService: ConfigService) {}
 
   private connectionString = this.configService.getOrThrow('MONGO_URL')
+  private dbName = this.configService.getOrThrow('MONGO_DB_NAME')
 
   log(message: string, context?: string) {
-    logger(this.connectionString).info(message, { context })
+    logger(this.connectionString, this.dbName).info(message, { context })
   }
 
   error(message: string, trace: string, context?: string) {
-    logger(this.connectionString).error(message, { context, trace })
+    logger(this.connectionString, this.dbName).error(message, {
+      context,
+      trace,
+    })
   }
 
   warn(message: string, context?: string) {
-    logger(this.connectionString).warn(message, { context })
+    logger(this.connectionString, this.dbName).warn(message, { context })
   }
 
   debug(message: string, context?: string) {
-    logger(this.connectionString).debug(message, { context })
+    logger(this.connectionString, this.dbName).debug(message, { context })
   }
 }

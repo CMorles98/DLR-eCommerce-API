@@ -17,7 +17,9 @@ import { CommonModule } from './common/common.module'
   imports: [
     configModuleConfigurations,
     CacheModule.register({ max: 10, isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_URL, { dbName: 'DLR' }),
+    MongooseModule.forRoot(process.env.MONGO_URL, {
+      dbName: process.env.MONGO_DB_NAME,
+    }),
     AuthModule,
     UsersModule,
     LoggerModule,
