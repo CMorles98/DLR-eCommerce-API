@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, FilterQuery } from 'mongoose'
 import { User } from 'src/core/users/entities/user.entity'
@@ -11,6 +16,7 @@ import { RegisterDto } from '../auth/dto/register.dto'
 import { queryBuilder } from 'src/common/helpers/filter-query.helper'
 import { UserParametersDto } from './dto/user-parameters.dto'
 import { S3Helper } from 'src/common/helpers/aws-s3.helper'
+import { ChangePasswordInternalDto } from '../auth/dto/restore-password-internal.dto'
 
 @Injectable()
 export class UsersService {
@@ -21,7 +27,7 @@ export class UsersService {
   ) {}
 
   async findOne(filter?: FilterQuery<User>): Promise<User | null> {
-    return await this.userModel.findOne(filter).exec()
+    return await this.userModel.findOne({ ...filter, active: true }).exec()
   }
 
   async find(parameters: UserParametersDto): Promise<User[]> {
@@ -41,7 +47,7 @@ export class UsersService {
   async update(
     id: string,
     input: UpdateUserDto,
-    file: Express.Multer.File,
+    file?: Express.Multer.File,
   ): Promise<UserDto | null> {
     if (file) {
       if (input.imgUrl) {
@@ -62,6 +68,39 @@ export class UsersService {
   async delete(id: string): Promise<User | null> {
     return await this.userModel
       .findByIdAndUpdate(id, { active: false }, { new: true })
+      .exec()
+  }
+
+  async changePasswordInternal(
+    id: string,
+    changePasswordDto: ChangePasswordInternalDto,
+  ): Promise<void> {
+    const user = await this.userModel.findOne({ _id: id })
+
+    if (!user) {
+      throw new NotFoundException('User not found')
+    }
+
+    const passwordComparison = bcrypt.compareSync(
+      changePasswordDto.oldPassword,
+      user.password,
+    )
+
+    if (!passwordComparison) {
+      throw new UnauthorizedException(
+        'The password does not match with the user',
+      )
+    }
+
+    await this.UpdatePassword(id, changePasswordDto.password)
+  }
+
+  async UpdatePassword(id: string, password: string) {
+    const salt = this.configService.getOrThrow('PASSWORD_SALT')
+    const hashedPassword = bcrypt.hashSync(password, salt)
+
+    return await this.userModel
+      .findByIdAndUpdate(id, { password: hashedPassword }, { new: true })
       .exec()
   }
 

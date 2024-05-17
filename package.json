@@ -36,6 +36,7 @@
     "joi": "^17.12.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.2.0",
+    "nestjs-i18n": "^10.4.5",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "uuid": "^9.0.1",

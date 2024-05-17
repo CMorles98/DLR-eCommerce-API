@@ -12,6 +12,16 @@ import { configModuleConfigurations } from './common/configurations/configure-co
 import { ProductVariantsModule } from './core/product-variants/product-variants.module'
 import { ProductsModule } from './core/products/products.module'
 import { CommonModule } from './common/common.module'
+import {
+  AcceptLanguageResolver,
+  CookieResolver,
+  HeaderResolver,
+  I18nModule,
+  QueryResolver,
+} from 'nestjs-i18n'
+import { join } from 'path'
+import { ConfigService } from '@nestjs/config'
+import { LanguageInterceptor } from './common/interceptors/language.interceptor'
 
 @Module({
   imports: [
@@ -27,12 +37,32 @@ import { CommonModule } from './common/common.module'
     ProductVariantsModule,
     ProductsModule,
     CommonModule,
+    I18nModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
+        loaderOptions: {
+          path: join(__dirname, '/i18n/'),
+          watch: true,
+        },
+      }),
+      resolvers: [
+        new QueryResolver(['lang', 'l']),
+        new HeaderResolver(['accept-language']),
+        new CookieResolver(),
+        AcceptLanguageResolver,
+      ],
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     LoggerService,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LanguageInterceptor,
     },
     {
       provide: APP_FILTER,

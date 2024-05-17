@@ -21,7 +21,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty({ type: [String] })
   @IsArray()
   @IsOptional()
-  role: string
+  role: string[]
 
   @ApiProperty()
   @IsOptional()

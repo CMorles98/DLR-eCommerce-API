@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -19,6 +20,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { AdminGuard } from 'src/common/guards/admin.guard'
 import { UserParametersDto } from './dto/user-parameters.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { ChangePasswordInternalDto } from '../auth/dto/restore-password-internal.dto';
 
 @UseGuards(AuthGuard)
 @ApiTags('users')
@@ -39,7 +41,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return await this.userService.findOne({ _id: id })
   }
 
@@ -57,5 +59,13 @@ export class UsersController {
   @Delete(':id')
   async delete(@Param('id') id: string) {
     return await this.userService.delete(id)
+  }
+
+  @Patch(':id/change-password')
+  async changePasswordInternal(
+    @Param('id') id: string,
+    @Body() changePasswordDto: ChangePasswordInternalDto,
+  ) {
+    return await this.userService.changePasswordInternal(id, changePasswordDto)
   }
 }
