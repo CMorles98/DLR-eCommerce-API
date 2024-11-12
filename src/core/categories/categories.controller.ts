@@ -11,9 +11,9 @@ import {
 import { CreateCategoryDto } from './dto/create-category.dto'
 import { UpdateCategoryDto } from './dto/update-category.dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-import { AuthGuard } from 'src/common/guards/auth.guard'
+import { AuthGuard } from '../../common/guards/auth.guard'
 import { CategoriesService } from './categories.service'
-import { AdminGuard } from 'src/common/guards/admin.guard'
+import { AdminGuard } from '../../common/guards/admin.guard'
 
 @UseGuards(AuthGuard)
 @ApiTags('categories')

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, FilterQuery } from 'mongoose'
-import { ProductVariant } from 'src/core/product-variants/entities/product-variant.entity'
+import { ProductVariant } from '../../core/product-variants/entities/product-variant.entity'
 
 @Injectable()
 export class ProductVariantsService {

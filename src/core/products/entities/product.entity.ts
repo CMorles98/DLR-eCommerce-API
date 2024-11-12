@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Document } from 'mongoose'
 import { v4 as UUID4 } from 'uuid'
 import { AdditionalInfo } from '../interfaces/additional-info.interface'
-import { ProductVariant } from 'src/core/product-variants/entities/product-variant.entity'
+import { ProductVariant } from '../../../core/product-variants/entities/product-variant.entity'
 
 @Schema()
 export class Product extends Document {

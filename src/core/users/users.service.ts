@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model, FilterQuery } from 'mongoose'
-import { User } from 'src/core/users/entities/user.entity'
+import { User } from '../../core/users/entities/user.entity'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { CreateUserDto } from './dto/create-user.dto'
 import { ConfigService } from '@nestjs/config'
@@ -15,7 +15,7 @@ import { UserDto } from './dto/user.dto'
 import { RegisterDto } from '../auth/dto/register.dto'
 import { queryBuilder } from '../../common/helpers/filter-query.helper'
 import { UserParametersDto } from './dto/user-parameters.dto'
-import { S3Helper } from 'src/common/helpers/aws-s3.helper'
+import { S3Helper } from '../../common/helpers/aws-s3.helper'
 import { ChangePasswordInternalDto } from '../auth/dto/restore-password-internal.dto'
 
 @Injectable()

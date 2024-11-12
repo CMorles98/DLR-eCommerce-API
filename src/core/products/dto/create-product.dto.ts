@@ -12,7 +12,7 @@ import {
   Min,
 } from 'class-validator'
 import { AdditionalInfo } from '../interfaces/additional-info.interface'
-import { CreateProductVariantDto } from 'src/core/product-variants/dto/create-product-variant.dto'
+import { CreateProductVariantDto } from '../../../core/product-variants/dto/create-product-variant.dto'
 
 export class CreateProductDto {
   @ApiProperty()

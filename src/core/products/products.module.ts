@@ -7,7 +7,7 @@ import { CategoriesModule } from '../categories/categories.module'
 import { ProductVariantsModule } from '../product-variants/product-variants.module'
 import { ProductsController } from './products.controller'
 import { ProductsService } from './products.service'
-import { CommonModule } from 'src/common/common.module'
+import { CommonModule } from '../../common/common.module'
 
 @Module({
   imports: [

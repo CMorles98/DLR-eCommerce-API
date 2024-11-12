@@ -1,10 +1,10 @@
 import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { AuthModule } from 'src/core/auth/auth.module'
-import { CategoriesModule } from 'src/core/categories/categories.module'
-import { ProductVariantsModule } from 'src/core/product-variants/product-variants.module'
-import { ProductsModule } from 'src/core/products/products.module'
-import { UsersModule } from 'src/core/users/users.module'
+import { AuthModule } from '../../core/auth/auth.module'
+import { CategoriesModule } from '../../core/categories/categories.module'
+import { ProductVariantsModule } from '../../core/product-variants/product-variants.module'
+import { ProductsModule } from '../../core/products/products.module'
+import { UsersModule } from '../../core/users/users.module'
 
 export const configureSwaggerUI = (app: INestApplication<any>) => {
   const config = new DocumentBuilder()

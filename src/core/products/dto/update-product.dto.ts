@@ -12,7 +12,7 @@ import {
   IsUUID,
 } from 'class-validator'
 import { AdditionalInfo } from '../interfaces/additional-info.interface'
-import { UpdateProductVariantDto } from 'src/core/product-variants/dto/update-product-variant.dto'
+import { UpdateProductVariantDto } from '../../../core/product-variants/dto/update-product-variant.dto'
 
 export class UpdateProductDto {
   @ApiProperty()

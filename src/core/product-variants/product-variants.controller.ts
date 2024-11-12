@@ -6,7 +6,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
-import { AuthGuard } from 'src/common/guards/auth.guard'
+import { AuthGuard } from '../../common/guards/auth.guard'
 import { ProductVariantsService } from './product-variants.service'
 
 @UseGuards(AuthGuard)

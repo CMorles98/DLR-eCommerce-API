@@ -4,7 +4,7 @@ import { UsersController } from './users.controller'
 import { MongooseModule } from '@nestjs/mongoose'
 import { User, UserSchema } from './entities/user.entity'
 import { ConfigModule } from '@nestjs/config'
-import { CommonModule } from 'src/common/common.module'
+import { CommonModule } from '../../common/common.module'
 
 @Module({
   imports: [
