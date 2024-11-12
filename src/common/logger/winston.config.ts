@@ -3,7 +3,7 @@ import 'winston-daily-rotate-file'
 import * as winstonMongoDB from 'winston-mongodb'
 
 const transports = (connectionString: string, dbName: string) => {
-  return [
+  const transportList: any = [
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.timestamp(),
@@ -13,17 +13,6 @@ const transports = (connectionString: string, dbName: string) => {
             return `${timestamp} [${context}] ${level}: ${message}${trace ? `\n${trace}` : ''}`
           },
         ),
-      ),
-    }),
-    new winston.transports.DailyRotateFile({
-      filename: 'logs/dlr-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      zippedArchive: true,
-      maxSize: '20m',
-      maxFiles: '14d',
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
       ),
     }),
     new winstonMongoDB.MongoDB({
@@ -40,6 +29,24 @@ const transports = (connectionString: string, dbName: string) => {
       dbName,
     }),
   ]
+
+  if (process.env.NODE_ENV !== 'production') {
+    const logFilesConfiguration = new winston.transports.DailyRotateFile({
+      filename: 'logs/dlr-%DATE%.log',
+      datePattern: 'YYYY-MM-DD',
+      zippedArchive: true,
+      maxSize: '20m',
+      maxFiles: '14d',
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+    })
+
+    transportList.push(logFilesConfiguration)
+  }
+
+  return transportList
 }
 
 export const logger = (connectionString: string, dbName: string) => {
