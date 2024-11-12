@@ -39,7 +39,7 @@ import { LanguageInterceptor } from './common/interceptors/language.interceptor'
     CommonModule,
     I18nModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
-        fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
+        fallbackLanguage: configService.get('FALLBACK_LANGUAGE') ?? 'en',
         loaderOptions: {
           path: join(__dirname, '/i18n/'),
           watch: true,
