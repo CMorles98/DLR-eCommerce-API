@@ -20,7 +20,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { AdminGuard } from 'src/common/guards/admin.guard'
 import { UserParametersDto } from './dto/user-parameters.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ChangePasswordInternalDto } from '../auth/dto/restore-password-internal.dto';
+import { ChangePasswordInternalDto } from '../auth/dto/restore-password-internal.dto'
 
 @UseGuards(AuthGuard)
 @ApiTags('users')
