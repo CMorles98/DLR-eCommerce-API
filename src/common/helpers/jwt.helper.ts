@@ -1,5 +1,3 @@
-import { Request } from '@nestjs/common'
-
 export const extractTokenFromHeader = (
   request: Request,
 ): string | undefined => {

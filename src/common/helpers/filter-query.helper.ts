@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common'
 import { isNotEmpty } from 'class-validator'
 import { FilterQuery } from 'mongoose'
 
+@Injectable()
 export class queryBuilder {
   static loadFilters<T>(parameters: any): FilterQuery<T> {
     const filter: FilterQuery<T> = {}

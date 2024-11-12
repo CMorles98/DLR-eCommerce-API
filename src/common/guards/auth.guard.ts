@@ -1,3 +1,5 @@
+import { UsersService } from '../../core/users/users.service'
+import { extractTokenFromHeader } from '../helpers/jwt.helper'
 import {
   CanActivate,
   ExecutionContext,
@@ -6,9 +8,7 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
-import { UsersService } from 'src/core/users/users.service'
-import { extractTokenFromHeader } from 'src/common/helpers/jwt.helper'
-import { JwtPayload } from 'src/core/auth/interfaces/jwt-payload'
+import { JwtPayload } from '../../core/auth/interfaces/jwt-payload'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
