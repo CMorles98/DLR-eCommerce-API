@@ -14,7 +14,6 @@ export class LanguageInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest()
     const lang = req.headers['accept-language']
-    console.log(lang)
     if (lang) {
       this.i18n.resolveLanguage(lang)
     }

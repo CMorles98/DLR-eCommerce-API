@@ -1,5 +1,6 @@
 import { Prop, SchemaFactory } from '@nestjs/mongoose'
 import { ApiProperty } from '@nestjs/swagger'
+import { AdditionalInfo } from '@src/core/products/interfaces/additional-info.interface'
 import { Document } from 'mongoose'
 import { v4 as UUID4 } from 'uuid'
 
@@ -22,5 +23,17 @@ export class ProductVariant extends Document {
   @ApiProperty()
   @Prop({ type: Boolean, default: false })
   isDefault: boolean
+
+  @ApiProperty()
+  @Prop({ required: true, maxlength: 50, type: String })
+  sku: string
+
+  @ApiProperty()
+  @Prop({ required: true, type: Number, min: 0 })
+  price: number
+
+  @ApiProperty({ type: [{}] })
+  @Prop({ type: [Object] })
+  additionalInformation: AdditionalInfo[]
 }
 export const productVariantSchema = SchemaFactory.createForClass(ProductVariant)

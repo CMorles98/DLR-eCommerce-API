@@ -26,8 +26,6 @@ export class AuthController {
   async register(@Body() registerDto: RegisterDto) {
     const user = await this.userService.findOne({ email: registerDto.email })
 
-    console.log(user)
-
     if (isNotEmpty(user)) {
       throw new BadRequestException('This User already exists')
     }

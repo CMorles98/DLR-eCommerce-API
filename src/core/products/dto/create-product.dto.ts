@@ -3,82 +3,79 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsBoolean,
-  IsDecimal,
   IsNotEmpty,
   IsNumber,
-  IsUUID,
+  IsOptional,
   Max,
   MaxLength,
   Min,
 } from 'class-validator'
-import { AdditionalInfo } from '../interfaces/additional-info.interface'
 import { CreateProductVariantDto } from '../../../core/product-variants/dto/create-product-variant.dto'
+import { OfferDto, ReviewDto } from './offer-date.dto'
 
 export class CreateProductDto {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNotEmpty()
-  @MaxLength(100)
+  @MaxLength(250)
   name: string
 
   @ApiProperty()
+  @MaxLength(250)
+  slug: string
+
+  @ApiProperty({ required: false })
   @MaxLength(Number.MAX_SAFE_INTEGER)
   description: string
 
-  @ApiProperty()
-  @IsDecimal({ decimal_digits: '2', force_decimal: true })
-  @Min(0)
-  price: number
-
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNotEmpty()
-  @MaxLength(50)
-  sku: string
-
-  @ApiProperty()
-  @IsUUID()
   categoryId: string
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNotEmpty()
   @MaxLength(50)
   brand: string
+
+  @ApiProperty({ required: false })
+  @IsNotEmpty()
+  @MaxLength(250)
+  status: string
+
+  @ApiProperty({ type: Array<ReviewDto> })
+  @IsArray()
+  reviews: ReviewDto[]
 
   @ApiProperty({ type: Array<CreateProductVariantDto> })
   @ArrayNotEmpty()
   productVariants: CreateProductVariantDto[]
 
-  @ApiProperty()
-  @IsNumber()
-  @Min(0)
-  stock: number
-
-  @ApiProperty({ type: [Object] })
-  @IsArray()
-  reviews: object[]
-
-  @ApiProperty({ type: Array<AdditionalInfo> })
-  @IsArray()
-  additionalInformation: AdditionalInfo[]
-
-  @ApiProperty({ type: [String] })
-  @IsArray()
-  relatedProductIds: string[]
-
-  @ApiProperty()
-  @IsBoolean()
-  isTopRated: boolean
-
   @ApiProperty({ type: [String] })
   @ArrayNotEmpty()
   tags: string[]
 
-  @ApiProperty()
-  @IsNumber()
-  @Max(100)
-  offerPercentage: number
+  @ApiProperty({ required: false })
+  @IsBoolean()
+  featured: boolean
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsNumber()
   @Max(5)
   rate: number
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  bgColor?: string
+
+  @ApiProperty({
+    type: OfferDto,
+    description: 'The offer date range',
+    required: false,
+  })
+  @IsOptional()
+  offer?: OfferDto
+
+  @ApiProperty({ required: false })
+  @IsNumber()
+  @Min(0)
+  qty: number
 }

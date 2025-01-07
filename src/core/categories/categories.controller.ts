@@ -15,13 +15,13 @@ import { AuthGuard } from '../../common/guards/auth.guard'
 import { CategoriesService } from './categories.service'
 import { AdminGuard } from '../../common/guards/admin.guard'
 
-@UseGuards(AuthGuard)
 @ApiTags('categories')
 @ApiBearerAuth()
 @Controller('api/v1/categories')
 export class CategoriesController {
   constructor(private readonly categoryService: CategoriesService) {}
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminGuard)
   @Post()
   async create(@Body() input: CreateCategoryDto) {
@@ -38,6 +38,7 @@ export class CategoriesController {
     return await this.categoryService.findOne({ _id: id })
   }
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminGuard)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() input: UpdateCategoryDto) {
@@ -45,6 +46,7 @@ export class CategoriesController {
     return category
   }
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminGuard)
   @Delete(':id')
   async delete(@Param('id') id: string) {

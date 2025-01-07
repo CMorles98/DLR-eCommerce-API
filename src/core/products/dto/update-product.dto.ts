@@ -9,7 +9,6 @@ import {
   IsArray,
   IsBoolean,
   Max,
-  IsUUID,
 } from 'class-validator'
 import { AdditionalInfo } from '../interfaces/additional-info.interface'
 import { UpdateProductVariantDto } from '../../../core/product-variants/dto/update-product-variant.dto'
@@ -74,6 +73,5 @@ export class UpdateProductDto {
   rate: number
 
   @ApiProperty()
-  @IsUUID()
-  categoryId: string
+  category: string
 }

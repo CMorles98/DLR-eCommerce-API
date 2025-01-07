@@ -9,7 +9,6 @@ import { LoggerService } from './common/logger/logger.service'
 import { AuthModule } from './core/auth/auth.module'
 import { CategoriesModule } from './core/categories/categories.module'
 import { configModuleConfigurations } from './common/configurations/configure-config-module'
-import { ProductVariantsModule } from './core/product-variants/product-variants.module'
 import { ProductsModule } from './core/products/products.module'
 import { CommonModule } from './common/common.module'
 import {
@@ -34,7 +33,6 @@ import { LanguageInterceptor } from './common/interceptors/language.interceptor'
     UsersModule,
     LoggerModule,
     CategoriesModule,
-    ProductVariantsModule,
     ProductsModule,
     CommonModule,
     I18nModule.forRootAsync({

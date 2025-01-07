@@ -2,7 +2,6 @@ import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { AuthModule } from '../../core/auth/auth.module'
 import { CategoriesModule } from '../../core/categories/categories.module'
-import { ProductVariantsModule } from '../../core/product-variants/product-variants.module'
 import { ProductsModule } from '../../core/products/products.module'
 import { UsersModule } from '../../core/users/users.module'
 
@@ -17,14 +16,8 @@ export const configureSwaggerUI = (app: INestApplication<any>) => {
     .build()
 
   const document = SwaggerModule.createDocument(app, config, {
-    include: [
-      AuthModule,
-      CategoriesModule,
-      UsersModule,
-      ProductVariantsModule,
-      ProductsModule,
-    ],
+    include: [AuthModule, CategoriesModule, UsersModule, ProductsModule],
   })
 
-  SwaggerModule.setup('swagger-ui', app, document)
+  SwaggerModule.setup('api', app, document)
 }

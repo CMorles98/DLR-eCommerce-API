@@ -33,23 +33,16 @@ export class ProductsService {
 
   async find(parameters: ProductParametersDto): Promise<Product[]> {
     const filters = queryBuilder.loadFilters<Product>(parameters)
-    const products = await this.productModel
-      .find(filters)
-      .select([
-        'name',
-        'stock',
-        'rate',
-        'price',
-        'offerPercentage',
-        'defaultImgUrl',
-        'categories',
-      ])
-      .exec()
+    const products = await this.productModel.find(filters).exec()
     return products.map((product) => {
-      product['priceDiscount'] =
-        product.offerPercentage > 0
-          ? product.price * (1 - product.offerPercentage / 100)
-          : product.price
+      if (
+        product.offer &&
+        (!product.offer.endDate || product.offer.endDate <= new Date())
+      ) {
+        for (const variant of product.productVariants) {
+          variant.price = variant.price * (1 - product.offer.percentage / 100)
+        }
+      }
       return product
     })
   }
@@ -67,14 +60,16 @@ export class ProductsService {
       input.productVariants,
     )
 
-    const createdProduct = new this.productModel({
+    const productData = {
       ...input,
       defaultImgUrl: variantImageUrls[defaultVariantIndex],
       productVariants: input.productVariants.map((variant, index) => ({
         ...variant,
         imageUrl: variantImageUrls[index],
       })),
-    })
+    }
+
+    const createdProduct = new this.productModel(productData)
 
     return await createdProduct.save()
   }
@@ -82,7 +77,7 @@ export class ProductsService {
   async update(id: string, input: UpdateProductDto): Promise<Product | null> {
     await this.validateProduct(
       input.name,
-      input.categoryId,
+      input.category,
       input.productVariants,
       id,
     )
@@ -192,8 +187,11 @@ export class ProductsService {
     const categoryExists = await this.categoryService.findOne({
       _id: categoryId,
     })
+
     if (isEmpty(categoryExists)) {
-      throw new NotFoundException('Could not find the associated category')
+      throw new NotFoundException(
+        `Could not find the associated category with ID: ${categoryId}`,
+      )
     }
   }
 
@@ -206,6 +204,10 @@ export class ProductsService {
   private async genImageUrls({ productVariants }: CreateProductDto) {
     const variantImageUrls: string[] = []
     for (const variant of productVariants) {
+      if (variant.imgUrl) {
+        variantImageUrls.push(variant.imgUrl)
+        continue
+      }
       const imageUrl = await this.s3Helper.uploadFile(variant.image.buffer)
       variantImageUrls.push(imageUrl)
     }

@@ -18,13 +18,13 @@ import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
 import { ProductParametersDto } from './dto/product-parameters.dto'
 
-@UseGuards(AuthGuard)
 @ApiBearerAuth()
 @ApiTags('products')
 @Controller('api/v1/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminGuard)
   @Post()
   async create(@Body() input: CreateProductDto) {
@@ -41,6 +41,7 @@ export class ProductsController {
     return await this.productsService.findOne({ _id: id })
   }
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminGuard)
   @Patch(':id')
   async update(
@@ -50,6 +51,7 @@ export class ProductsController {
     return await this.productsService.update(id, input)
   }
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminGuard)
   @Delete(':id')
   async delete(@Param('id', ParseUUIDPipe) id: string) {

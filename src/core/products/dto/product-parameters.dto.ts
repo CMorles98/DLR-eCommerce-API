@@ -1,19 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsOptional, IsString } from 'class-validator'
 
 export class ProductParametersDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  name: string
+  name?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  category: string
+  category?: string
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  brand: string
+  brand?: string
+
+  @ApiProperty()
+  @IsOptional()
+  @IsBoolean()
+  featured?: boolean
 }

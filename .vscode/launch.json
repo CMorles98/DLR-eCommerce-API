@@ -14,7 +14,7 @@
                 "start:dev"
             ],
             "console": "integratedTerminal",
-            "restart": true,
+            "restart": false,
             "sourceMaps": true,
             "envFile": "${workspaceFolder}/.env.development",
             "cwd": "${workspaceRoot}",
